@@ -32,7 +32,7 @@ Nesta tarefa, é-nos fornecido shellcode para nos familiarizarmos com o mesmo.
 
 Em primeiro lugar, foi-nos fornecido shellcode em C. Apesar de usualmente não se escrever shellcode em C, o programa dá launch a uma shell.
 
-![Shellcode C](Images/logbook5_9.png)
+![Shellcode C](images/logbook5_9.png)
 
 Em segundo lugar e terceiro lugar, temos shellcode em assembly, tanto de 32-bits como de 64-bits. Para ter acesso a esse código, tivemos de usar o comando `make` que gerou os executáveis.
 
@@ -40,11 +40,11 @@ No caso do shellcode de 32-bit, ao correr o código, demos launch a uma shell e,
 
 Pudemos também perceber como funciona o shellcode de 32-bit de maneira superficial. Um exemplo disto é com a linha do código `push "//sh”` , que tem duas barras visto que é necessário que a instrução tenha 32 bits, enquanto que `/sh` tem apenas 24. Conseguimos também ver que o código foi escrito de maneira a conseguirmos passar os argumentos necessários para o `execve()` através dos registos e quando é que este system call é feito.
 
-![Shellcode 32-bit](Images/logbook5_2.png)
+![Shellcode 32-bit](images/logbook5_2.png)
 
 O mesmo acontece quando usamos a shell de 64-bit, a qual também é executada como seed.
 
-![Shellcode 64-bit](Images/logbook5_1.png)
+![Shellcode 64-bit](images/logbook5_1.png)
 
 # Task 2
 
@@ -64,26 +64,26 @@ Na Task3 procedemos a fazer um ataque no programa referido anteriormente.
 
 Começamos por compilar o programa com todas as flags anteriormente usadas acrescentado agora a flag -g para debugging  e criamos o ficheiro para ser lido com ‘touch badfile’.
 
-![Make and badfile](Images/logbook5_3.png)
+![Make and badfile](images/logbook5_3.png)
 
 Precisamos agora de entrar em debug no terminal para ter acesso aos endereços de memória utilizando  ‘gbd stack-L1-dbg’
 
-![Debug](Images/logbook5_4.png)
+![Debug](images/logbook5_4.png)
 
 Entrando em modo debug criamos um breakpoint no inicio da função bof ‘b bof’, executamos o código ‘run’ até que este alcance o breakpoint
 
-![b bof](Images/logbook5_5.png)
+![b bof](images/logbook5_5.png)
 
 Continuamos a execução até esta parar quando strcpy é chamada.
 
-![Exec](Images/logbook5_6.png)
+![Exec](images/logbook5_6.png)
 
-![Exec strcpy](Images/logbook5_7.png)
+![Exec strcpy](images/logbook5_7.png)
 
 usamos o comando ‘p $ebp’ para este printar o endereço do ebp ‘0xffffcb38’ que aqui representa também o endereço de retorno da stack frame , algo que será útil mais para a frente.
 
 fazemos o mesmo com buffer ‘p &buffer’ e obtemos da mesma maneira o endereço onde começa o buffer, neste caso ‘0xffffcacc’
 
-![Buffer](Images/logbook5_8.png)
+![Buffer](images/logbook5_8.png)
 
 Com os endereços de ambos seremos capazes de calcular a diferença de bytes entre eles de modo a podermos dar overwrite ao endereço de retorno da função ‘bo’
