@@ -22,15 +22,15 @@ Este programa lê um input que é passado para o `printf()` que dá print aos da
 
 Para isto, precisamos de compilar o programa com algumas flags ( `-static` para compilar estaticamente, `-m32` para executáveis de 32-bits e `-z execstack` para que a stack possa ser executável.
 
-![image1](images\image1_log7.png)
+![image1](images/image7_log7.png)
 
 De seguida, é necessário copiar este executável para poder ser utilizado pelos containers, através de um `make install` .
 
-![image2](images\image2_log7.png)
+![image2](images/image2_log7.png)
 
 ### 3. Container Setup and Commands
 
-![image3](images\image3_log7.png)
+![image3](images/image3_log7.png)
 
 ## Task1
 
@@ -38,19 +38,19 @@ Para a task 1 temos como objetivo dar crash ao programa explorando vulnerabilida
 
  Primeiramente temos de escrever a string “hello” para o servidor através do comando ‘echo hello | nc 10.9.0.5 9090’ (nc (netcat) é uma networking utility para escrever e ler de e para network connections). 
 
-![image4](images\image4_log7.png)
+![image4](images/image4_log7.png)
 
 Ao acedermos aos logs do docker verificamos que tudo correu como previsto e este retornou corretamente. Para além disso tembém ficámos a saber o endereço do input buffer, da secret message, do frame pointer e o endereço inicial e final da variável target.
 
-![image5](images\image5_log7.png)
+![image5](images/image5_log7.png)
 
 Para o obrigar a dar crash, sabendo que o server só aceita 1500 bytes, tentamos criar um payload que explore este limite, para tal corremos o script indicado na pasta ‘attack code’ que escreve para um file uma string de 1500 bytes que depois é enviada para o server. 
 
 Como a string tem %08x e %n no final, o format string vai procurar os argumentos e para tal tenta usar o  endereço imediatamente acima da sua posição na stack e tenta imprimir a string que está nesse endereço. Como deve ser um endereço protegido o programa dá crash:
 
-![imagem6](images\image6_log7.png)
+![imagem6](images/image6_log7.png)
 
-![imagem7](images\image7_log7.png)
+![imagem7](images/image7_log7.png)
 
 ## Task2
 
@@ -71,9 +71,9 @@ with open('badfile','wb') as file:
 
 após correr o script obtemos:
 
-![image8](images\image8_log7.png)
+![image8](images/image8_log7.png)
 
-![image9](images\image9_log7.png)
+![image9](images/image9_log7.png)
 
 conseguimos assim aceder à informação da stack e à posição onde os nossos bytes de identificação foram guardados(pois sabendo que o printf vai buscar como argumentos os endereços logo a seguir sabemos que o printf escreve 64 endereços acima na stack). (os bytes estão em order inversa pois trata-se de arquitetura Little endian).
 
@@ -94,9 +94,9 @@ with open('badfile2', 'wb') as file:
     file.write(payload)
 ```
 
-![image10](images\image10_log7.png)
+![image10](images/image10_log7.png)
 
-![images11](images\image11_log7.png)
+![images11](images/image11_log7.png)
 
 Conseguimos assim aceder à mensagem secreta.
 
@@ -118,7 +118,7 @@ with open('badfile3', 'wb') as file:
     file.write(payload)
 ```
 
-![images12](images\image12_log7.png)
+![images12](images/image12_log7.png)
 
 Podemos aqui verificar que o valor de target mudou de 0x11223344 para 4, tal como pretendiamos (neste caso o valor 4 vem do address que escrevemos).
 
@@ -137,7 +137,7 @@ with open('badfile4', 'wb') as file:
     file.write(payload)
 ```
 
-![image13](images\image13_log7.png)
+![image13](images/image13_log7.png)
 
 Conseguimos assim modificar o valor de target.
 
