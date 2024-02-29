@@ -1,9 +1,8 @@
+Solutions for Seed Labs and CTFs of Computer Security Foundations Curricular Unit
 
-Breve descrição do grupo
-
-* Turno: [L]XX
-* Grupo: YY
+* Turno: L11
+* Grupo: 09
 * Alunos:
-    - Aluno1 upZZZZZ 
-    - Aluno2 upZZZZZ
-    - Aluno3 upZZZZZ
+    - Rita Cachaldora
+    - Luís Duarte
+    - Tomás Ramos
